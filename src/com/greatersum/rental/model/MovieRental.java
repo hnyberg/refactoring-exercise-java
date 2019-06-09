@@ -1,4 +1,4 @@
-package com.greatersum.rental;
+package com.greatersum.rental.model;
 
 public class MovieRental {
     private final String movieId;

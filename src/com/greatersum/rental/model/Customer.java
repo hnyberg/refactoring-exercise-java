@@ -1,4 +1,4 @@
-package com.greatersum.rental;
+package com.greatersum.rental.model;
 
 import java.util.List;
 
