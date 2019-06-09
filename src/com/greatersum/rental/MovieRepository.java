@@ -5,14 +5,14 @@ import java.util.HashMap;
 
 import static com.greatersum.rental.Movie.*;
 
-public class RentalInfo {
+public class MovieRepository {
 
-    public String statement(Customer customer) {
+    public String getStatementForCustomer(Customer customer) {
         HashMap<String, Movie> movies = new HashMap();
-        movies.put("F001", new Movie("Ran", Code.REGULAR));
-        movies.put("F002", new Movie("Trois Couleurs: Bleu", Code.REGULAR));
-        movies.put("F003", new Movie("Cars 2", Code.CHILDRENS));
-        movies.put("F004", new Movie("Latest Hit Release", Code.NEW));
+        movies.put("F001", new Movie("Ran", Category.REGULAR));
+        movies.put("F002", new Movie("Trois Couleurs: Bleu", Category.REGULAR));
+        movies.put("F003", new Movie("Cars 2", Category.CHILDRENS));
+        movies.put("F004", new Movie("Latest Hit Release", Category.NEW));
 
         BigDecimal totalAmount = BigDecimal.valueOf(0);
         int frequentRenterPoints = 0;
@@ -22,11 +22,11 @@ public class RentalInfo {
             BigDecimal thisAmount = BigDecimal.valueOf(0);
 
             // determine amount for each movie
-            switch (movie.getCode()) {
+            switch (movie.getCategory()) {
                 case REGULAR:
                     thisAmount = BigDecimal.valueOf(2);
                     if (r.getDays() > 2) {
-                        thisAmount = BigDecimal.valueOf((r.getDays() - 2) * 1.5).add(thisAmount);
+                        thisAmount = thisAmount.add(BigDecimal.valueOf((r.getDays() - 2) * 1.5));
                     }
                     break;
                 case NEW:
@@ -43,7 +43,7 @@ public class RentalInfo {
             //add frequent renter points
             frequentRenterPoints++;
             // add bonus for a two day new release rental
-            if (movie.getCode() == Code.NEW && r.getDays() > 2) frequentRenterPoints++;
+            if (movie.getCategory() == Category.NEW && r.getDays() > 2) frequentRenterPoints++;
 
             //print figures for this rental
             result += "\t" + movie.getTitle() + "\t" + thisAmount + "\n";
