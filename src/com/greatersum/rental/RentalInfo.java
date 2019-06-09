@@ -1,18 +1,18 @@
 package com.greatersum.rental;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
+
+import static com.greatersum.rental.Movie.*;
 
 public class RentalInfo {
 
     public String statement(Customer customer) {
         HashMap<String, Movie> movies = new HashMap();
-        movies.put("F001", new Movie("Ran", "regular"));
-        movies.put("F002", new Movie("Trois Couleurs: Bleu", "regular"));
-        movies.put("F003", new Movie("Cars 2", "childrens"));
-        movies.put("F004", new Movie("Latest Hit Release", "new"));
+        movies.put("F001", new Movie("Ran", Code.REGULAR));
+        movies.put("F002", new Movie("Trois Couleurs: Bleu", Code.REGULAR));
+        movies.put("F003", new Movie("Cars 2", Code.CHILDRENS));
+        movies.put("F004", new Movie("Latest Hit Release", Code.NEW));
 
         BigDecimal totalAmount = BigDecimal.valueOf(0);
         int frequentRenterPoints = 0;
@@ -23,16 +23,16 @@ public class RentalInfo {
 
             // determine amount for each movie
             switch (movie.getCode()) {
-                case "regular":
+                case REGULAR:
                     thisAmount = BigDecimal.valueOf(2);
                     if (r.getDays() > 2) {
                         thisAmount = BigDecimal.valueOf((r.getDays() - 2) * 1.5).add(thisAmount);
                     }
                     break;
-                case "new":
+                case NEW:
                     thisAmount = BigDecimal.valueOf(r.getDays() * 3);
                     break;
-                case "childrens":
+                case CHILDRENS:
                     thisAmount = BigDecimal.valueOf(1.5);
                     if (r.getDays() > 3) {
                         thisAmount = BigDecimal.valueOf((r.getDays() - 3) * 1.5).add(thisAmount);
@@ -43,7 +43,7 @@ public class RentalInfo {
             //add frequent renter points
             frequentRenterPoints++;
             // add bonus for a two day new release rental
-            if (movie.getCode() == "new" && r.getDays() > 2) frequentRenterPoints++;
+            if (movie.getCode() == Code.NEW && r.getDays() > 2) frequentRenterPoints++;
 
             //print figures for this rental
             result += "\t" + movie.getTitle() + "\t" + thisAmount + "\n";
